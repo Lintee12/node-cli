@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["es6"],
     "allowJs": true,
-    "outDir": "build",
+    "outDir": "bin",
     "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
@@ -13,5 +13,5 @@
     "skipLibCheck": true,
     "types": ["node"]
   },
-  "exclude": ["example_modules", "dist", "build"]
+  "exclude": ["examples", "dist", "bin"]
 }

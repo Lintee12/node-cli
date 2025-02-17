@@ -1,19 +1,20 @@
 {
   "name": "node-cli",
   "version": "1.0.0",
+  "main": "index.js",
   "description": "",
   "bin": {
-    "node-cli": "build/index.js"
+    "node-cli": "bin/index.js"
   },
   "pkg": {
-    "scripts": "build/index.js"
+    "scripts": "bin/index.js"
   },
   "scripts": {
-    "start": "node build/index.js",
+    "start": "node bin/index.js",
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",
-    "package": "npm run build &&  rimraf dist && pkg . --targets latest-win-x64,latest-macos-x64,latest-linux-x64 --output dist/$npm_package_name",
-    "clean": "rimraf build",
+    "package": "npm run build &&  rimraf dist && pkg . --targets latest-win-x64,latest-macos-x64,latest-linux-x64 --output dist/node-cli",
+    "clean": "rimraf bin && rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
