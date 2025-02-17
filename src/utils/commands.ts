@@ -16,6 +16,11 @@ import { mkdir } from "../commands/mkdir";
 import { mk } from "../commands/mk";
 import { rm } from "../commands/rm";
 import { exec } from "../commands/exec";
+import { install } from "../commands/install";
+
+export function addCommand(command: Command) {
+  commands.push(command);
+}
 
 export const commands: Command[] = [
   {
@@ -60,6 +65,7 @@ export const commands: Command[] = [
     description: "Executes a list of commands line by line form the provided file.",
     callback: async (args) => await exec(args),
   },
+  { command: "install", description: "Installs a command from a js file.", callback: async (args) => await install(args) },
   {
     command: "sleep",
     description: "Pauses for the specified number of milliseconds.",
