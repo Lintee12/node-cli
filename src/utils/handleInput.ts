@@ -3,19 +3,27 @@ import { commands } from "./commands";
 
 export default async function handleInput(input: string) {
   const originalInput = input.trim();
+
+  //separate commands into a list by the '|' character
   const pipeline = originalInput
     .split("|")
     .map((cmd) => cmd.trim())
     .filter((cmd) => cmd !== "");
 
-  if (pipeline.length === 0) {
-    return;
-  }
+  if (pipeline.length === 0) return;
 
   let currentResult: string | void = undefined;
 
+  const tokenRegex = /"([^"]*)"|'([^']*)'|`([^`]*)`|\S+/g;
+
   for (let i = 0; i < pipeline.length; i++) {
-    let tokens = pipeline[i].split(" ").filter((token) => token !== "");
+    let tokens = [];
+    let match;
+    while ((match = tokenRegex.exec(pipeline[i]))) {
+      const quotedContent = match[1] || match[2] || match[3];
+      tokens.push(quotedContent || match[0]);
+    }
+
     const command = tokens[0];
 
     if (command === undefined) return;
@@ -24,6 +32,7 @@ export default async function handleInput(input: string) {
 
     if (cmd) {
       const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
+      console.log(args);
       currentResult = await cmd.callback(args);
 
       if (currentResult === undefined && i < pipeline.length - 1) {

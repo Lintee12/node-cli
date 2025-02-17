@@ -4,7 +4,7 @@ import { error, warn } from "../utils/clihelp";
 export function cd(args?: string[]) {
   if (args) {
     if (args.length > 0) {
-      let targetDir = args.join(" ");
+      let targetDir = args[0];
       if (fs.existsSync(targetDir) && fs.lstatSync(targetDir).isDirectory()) {
         process.chdir(targetDir);
       } else {

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node bin/index.js",
-    "dev": "nodemon src/index.ts",
+    "dev": "tsx --watch src/index.ts",
     "build": "tsc",
     "clean": "rm -rf bin",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,9 +20,11 @@
   "devDependencies": {
     "@types/node": "^22.13.4",
     "@types/ping": "^0.4.4",
+    "chokidar-cli": "^3.0.0",
     "nodemon": "^3.1.9",
     "ping": "^0.4.4",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
 }

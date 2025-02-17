@@ -4,11 +4,25 @@ import readline from "node:readline";
 export const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
-  terminal: false,
+  terminal: true,
 });
+
+process.stdin.setRawMode(true);
+
+let dataListenerAttached = false;
 
 export default function getInput(): Promise<string> {
   return new Promise((resolve) => {
+    if (!dataListenerAttached) {
+      process.stdin.on("data", (key: any) => {
+        if (key === "\u0003") {
+          rl.close();
+          process.exit();
+        }
+      });
+      dataListenerAttached = true;
+    }
+
     rl.question(`[${cwd().split("/").at(-1)}]$ `, (input) => {
       resolve(input);
     });

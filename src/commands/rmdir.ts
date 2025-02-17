@@ -5,30 +5,31 @@ export function rmdir(args?: string[]) {
   if (args) {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {
-      const targetPath = parsed.join(" ");
-      if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
-        if (flags.includes("-r")) {
-          //recursive
-          try {
-            fs.rmSync(targetPath, { recursive: true, force: true });
-          } catch (err: any) {
-            return error(`rmdir: '${targetPath}' failed.`);
-          }
-        } else {
-          //single dir
-          const files = fs.readdirSync(targetPath);
-          if (files.length > 0) {
-            return error(`rmdir: '${targetPath}' is not empty. Empty the directory or use -r.`);
-          } else {
+      for (const targetPath of parsed) {
+        if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
+          if (flags.includes("-r")) {
+            //recursive
             try {
-              fs.rmdirSync(targetPath);
+              fs.rmSync(targetPath, { recursive: true, force: true });
             } catch (err: any) {
               return error(`rmdir: '${targetPath}' failed.`);
             }
+          } else {
+            //single dir
+            const files = fs.readdirSync(targetPath);
+            if (files.length > 0) {
+              return error(`rmdir: '${targetPath}' is not empty. Empty the directory or use -r.`);
+            } else {
+              try {
+                fs.rmdirSync(targetPath);
+              } catch (err: any) {
+                return error(`rmdir: '${targetPath}' failed.`);
+              }
+            }
           }
+        } else {
+          return error(`rmdir: '${targetPath}' does not exist or is not a directory.`);
         }
-      } else {
-        return error(`rmdir: '${targetPath}' does not exist or is not a directory.`);
       }
     } else {
       return warn("Usage: rmdir <path> <flags>");
