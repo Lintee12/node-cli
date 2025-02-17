@@ -3,22 +3,39 @@ import { commands } from "./commands";
 
 export default async function handleInput(input: string) {
   const originalInput = input.trim();
-  let tokens = originalInput.split(" ");
-  tokens = tokens.filter((token) => token !== "");
+  const pipeline = originalInput
+    .split("|")
+    .map((cmd) => cmd.trim())
+    .filter((cmd) => cmd !== "");
 
-  const command = tokens[0];
+  if (pipeline.length === 0) {
+    return;
+  }
 
-  if (command === undefined) return;
+  let currentResult: string | void = undefined;
 
-  const cmd = commands.find((c) => c.command === command.toLowerCase());
+  for (let i = 0; i < pipeline.length; i++) {
+    let tokens = pipeline[i].split(" ").filter((token) => token !== "");
+    const command = tokens[0];
 
-  if (cmd) {
-    if (command === "echo" || command === "reverse" || command === "eval" || command === "b64") {
-      await cmd.callback([originalInput]);
+    if (command === undefined) return;
+
+    const cmd = commands.find((c) => c.command === command.toLowerCase());
+
+    if (cmd) {
+      const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
+      currentResult = await cmd.callback(args);
+
+      if (currentResult === undefined && i < pipeline.length - 1) {
+        currentResult = "";
+      }
+
+      if (i === pipeline.length - 1 && currentResult !== undefined) {
+        console.log(currentResult);
+      }
     } else {
-      await cmd.callback(tokens.slice(1));
+      console.error(error(`error: '${command}' is not a valid command.`));
+      break;
     }
-  } else {
-    error(`error: '${command}' is not a valid command.`);
   }
 }

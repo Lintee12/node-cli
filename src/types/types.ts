@@ -1,5 +1,5 @@
 export interface Command {
   command: string;
   description: string;
-  callback: (args?: string[]) => void;
+  callback: (args?: string[]) => string | void;
 }
