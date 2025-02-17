@@ -13,7 +13,7 @@
     "start": "node bin/index.js",
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",
-    "package": "npm run build &&  rimraf dist && pkg . --targets latest-win-x64,latest-macos-x64,latest-linux-x64 --output dist/node-cli",
+    "package": "npm run build && rimraf dist && pkg . --targets latest-win-x64,latest-macos-x64,latest-linux-x64 --output dist/node-cli",
     "clean": "rimraf bin && rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
