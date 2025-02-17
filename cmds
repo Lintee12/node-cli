@@ -1,0 +1,43 @@
+#example script
+
+hostname
+
+echo
+
+echo the date is:
+date
+
+sleep 1000
+
+echo the time is:
+time
+
+sleep 1000
+
+echo Creating test directory...
+
+mkdir testing
+
+sleep 1000
+
+echo Opening test directory...
+
+cd testing
+
+sleep 1000
+
+echo Creating file structure...
+
+mk a/a.txt b/b.txt c/c.txt
+
+sleep 5000
+
+echo Removing test directory...
+
+cd ../
+
+rmdir -r testing
+
+sleep 2000
+
+echo Script is done running...

@@ -32,7 +32,7 @@ export default async function handleInput(input: string) {
 
     if (cmd) {
       const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
-      console.log(args);
+      //console.log(args);
       currentResult = await cmd.callback(args);
 
       if (currentResult === undefined && i < pipeline.length - 1) {

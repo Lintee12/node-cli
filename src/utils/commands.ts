@@ -15,6 +15,7 @@ import { rmdir } from "../commands/rmdir";
 import { mkdir } from "../commands/mkdir";
 import { mk } from "../commands/mk";
 import { rm } from "../commands/rm";
+import exec from "../commands/exec";
 
 export const commands: Command[] = [
   {
@@ -53,6 +54,11 @@ export const commands: Command[] = [
         return args.join(" ").replace("echo", "").trimStart();
       }
     },
+  },
+  {
+    command: "exec",
+    description: "Executes a list of commands line by line form the provided file.",
+    callback: async (args) => await exec(args),
   },
   {
     command: "sleep",
