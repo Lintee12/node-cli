@@ -1,3 +1,4 @@
+import path from "node:path";
 import { cwd } from "node:process";
 import readline from "node:readline";
 
@@ -23,7 +24,7 @@ export default function getInput(): Promise<string> {
       dataListenerAttached = true;
     }
 
-    rl.question(`[${cwd().split("/").at(-1)}]$ `, (input) => {
+    rl.question(`[${path.basename(cwd())}]$ `, (input) => {
       resolve(input);
     });
   });

@@ -3,7 +3,7 @@ import readline from "readline";
 import { error, warn } from "../utils/clihelp";
 import handleInput from "../utils/handleInput";
 
-export default async function exec(args?: string[]) {
+export async function exec(args?: string[]) {
   if (args) {
     if (args.length > 0) {
       let targetPath = args[0];

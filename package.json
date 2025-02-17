@@ -2,15 +2,18 @@
   "name": "node-cli",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "bin": {
-    "node-cli": "./bin/index.js"
+    "node-cli": "build/index.js"
+  },
+  "pkg": {
+    "scripts": "build/index.js"
   },
   "scripts": {
-    "start": "node bin/index.js",
+    "start": "node build/index.js",
     "dev": "tsx --watch src/index.ts",
     "build": "tsc",
-    "clean": "rm -rf bin",
+    "package": "npm run build &&  rimraf dist && pkg . --targets latest-win-x64,latest-macos-x64,latest-linux-x64 --output dist/$npm_package_name",
+    "clean": "rimraf build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,10 +23,9 @@
   "devDependencies": {
     "@types/node": "^22.13.4",
     "@types/ping": "^0.4.4",
-    "chokidar-cli": "^3.0.0",
-    "nodemon": "^3.1.9",
     "ping": "^0.4.4",
-    "ts-node": "^10.9.2",
+    "pkg": "^5.8.1",
+    "rimraf": "^6.0.1",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }

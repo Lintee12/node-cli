@@ -15,7 +15,7 @@ import { rmdir } from "../commands/rmdir";
 import { mkdir } from "../commands/mkdir";
 import { mk } from "../commands/mk";
 import { rm } from "../commands/rm";
-import exec from "../commands/exec";
+import { exec } from "../commands/exec";
 
 export const commands: Command[] = [
   {
