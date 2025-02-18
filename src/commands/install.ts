@@ -15,7 +15,9 @@ export async function install(args?: string[]) {
   }
 
   try {
-    const importedModule = await import(`file://${fullFilePath}`);
+    console.log(fullFilePath);
+    const importedModule = await import(`${fullFilePath}`);
+    console.log(importedModule);
     const newCommand = importedModule.default || importedModule;
 
     if (newCommand.command && newCommand.description && typeof newCommand.callback === "function") {
