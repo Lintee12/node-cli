@@ -1,8 +1,11 @@
 import fs from "fs";
 import { error, parseArguments, warn } from "../utils/clihelp";
+import { Command } from "../types/types";
 
-export function rmdir(args?: string[]) {
-  if (args) {
+export const rmdir: Command = {
+  command: "rmdir",
+  description: "Removes a directory based on the given path. Flags: (-r, recursively removes a directory and its children)",
+  callback(args) {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {
       for (const targetPath of parsed) {
@@ -34,5 +37,5 @@ export function rmdir(args?: string[]) {
     } else {
       return warn("Usage: rmdir <path> <flags>");
     }
-  }
-}
+  },
+};

@@ -1,8 +1,11 @@
+import { Command } from "../types/types";
 import { success, warn } from "../utils/clihelp";
 import ping from "ping";
 
-export async function doPing(args?: string[]) {
-  if (args) {
+export const doPing: Command = {
+  command: "ping",
+  description: "Pings a domain name or ip address using an ICMP request.",
+  callback: async (args) => {
     if (args.length > 0) {
       const host = args[0];
       let result;
@@ -20,5 +23,5 @@ export async function doPing(args?: string[]) {
     } else {
       return warn("Usage: ping <host>");
     }
-  }
-}
+  },
+};

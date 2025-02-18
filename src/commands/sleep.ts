@@ -1,7 +1,10 @@
+import { Command } from "../types/types";
 import { error, warn } from "../utils/clihelp";
 
-export async function sleep(args: any) {
-  if (args) {
+export const sleep: Command = {
+  command: "sleep",
+  description: "Pauses for the specified number of milliseconds.",
+  callback: async (args) => {
     if (args.length > 0) {
       const ms = parseInt(args[0], 10);
       if (isNaN(ms)) {
@@ -12,5 +15,5 @@ export async function sleep(args: any) {
     } else {
       return warn("Usage: sleep <number>");
     }
-  }
-}
+  },
+};

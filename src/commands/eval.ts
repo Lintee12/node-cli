@@ -1,7 +1,10 @@
+import { Command } from "../types/types";
 import { error } from "../utils/clihelp";
 
-export function doEval(args?: string[]) {
-  if (args) {
+export const doEval: Command = {
+  command: "eval",
+  description: "Executes the provided input string as javascript.",
+  callback(args) {
     const formatted = args.join(" ").replace("eval", "").trimStart();
     try {
       const result = eval(formatted);
@@ -9,5 +12,5 @@ export function doEval(args?: string[]) {
     } catch (e: any) {
       return error(e.toString());
     }
-  }
-}
+  },
+};

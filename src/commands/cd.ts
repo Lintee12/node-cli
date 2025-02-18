@@ -1,8 +1,11 @@
 import fs from "fs";
 import { error, warn } from "../utils/clihelp";
+import { Command } from "../types/types";
 
-export function cd(args?: string[]) {
-  if (args) {
+export const cd: Command = {
+  command: "cd",
+  description: "Changes the current working directory.",
+  callback(args) {
     if (args.length > 0) {
       let targetDir = args[0];
       if (fs.existsSync(targetDir) && fs.lstatSync(targetDir).isDirectory()) {
@@ -13,5 +16,5 @@ export function cd(args?: string[]) {
     } else {
       return warn("Usage: cd <path>");
     }
-  }
-}
+  },
+};

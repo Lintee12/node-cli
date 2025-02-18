@@ -1,6 +1,11 @@
+import { Command } from "../types/types";
 import { rl } from "../utils/readline";
 
-export function exit() {
-  rl.close();
-  process.exit();
-}
+export const exit: Command = {
+  command: "exit",
+  description: "Quits the application.",
+  callback(args) {
+    rl.close();
+    process.exit();
+  },
+};

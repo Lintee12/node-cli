@@ -1,0 +1,9 @@
+import { Command } from "../types/types";
+
+export const date: Command = {
+  command: "date",
+  description: "Displays the current date.",
+  callback(args) {
+    return new Date().toDateString();
+  },
+};
