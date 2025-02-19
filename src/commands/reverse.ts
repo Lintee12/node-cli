@@ -5,6 +5,12 @@ export const reverse: Command = {
   description: "Reverses the provided input string.",
   arguments: "<string...>",
   callback(args) {
-    return args.join(" ").replace("reverse", "").trimStart().split("").reverse().join("");
+    return args
+      .join(" ")
+      .replace("reverse", "")
+      .trimStart()
+      .split("")
+      .reverse()
+      .join("");
   },
 };

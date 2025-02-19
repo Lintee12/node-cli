@@ -1,6 +1,6 @@
 import fs from "fs";
-import { error, warn } from "../utils/clihelp";
 import { Command } from "../types/command";
+import { output } from "../utils/clihelp";
 
 export const rm: Command = {
   command: "rm",
@@ -13,14 +13,24 @@ export const rm: Command = {
           try {
             fs.rmSync(targetPath);
           } catch (err: any) {
-            return error(`rm: '${targetPath}' does not exist or is not a file.`);
+            return output({
+              message: `rm: '${targetPath}' does not exist or is not a file.`,
+              messageType: "error",
+            });
           }
         } else {
-          return error(`rm: '${targetPath}' does not exist or is not a file.`);
+          return output({
+            message: `rm: '${targetPath}' does not exist or is not a file.`,
+            messageType: "error",
+          });
         }
       }
     } else {
-      return warn("Usage: rm <filePath>");
+      return output({
+        message: "Usage: rm <filePath>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

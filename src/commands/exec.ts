@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import readline from "readline";
-import { error, warn } from "../utils/clihelp";
 import handleInput from "../utils/handleInput";
 import { Command } from "../types/command";
+import { output } from "../utils/clihelp";
 
 export const exec: Command = {
   command: "exec",
@@ -36,9 +36,11 @@ export const exec: Command = {
 
             rl.on("error", (err) => {
               reject();
-              return error(
-                `rm: failed to read '${targetPath}': ${err.message}`
-              );
+              return output({
+                message: `rm: failed to read '${targetPath}': ${err.message}`,
+                messageType: "error",
+                usePrefix: true,
+              });
             });
           });
 
@@ -48,13 +50,25 @@ export const exec: Command = {
 
           return;
         } catch (err: any) {
-          return error(`exec: failed to process the file: ${err.message}`);
+          return output({
+            message: `exec: failed to process the file: ${err.message}`,
+            messageType: "error",
+            usePrefix: true,
+          });
         }
       } else {
-        return error(`exec: '${targetPath}' does not exist or is not a file.`);
+        return output({
+          message: `exec: '${targetPath}' does not exist or is not a file.`,
+          messageType: "error",
+          usePrefix: true,
+        });
       }
     } else {
-      return warn("Usage: exec <filePath>");
+      return output({
+        message: "Usage: exec <filePath>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

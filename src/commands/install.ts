@@ -1,8 +1,9 @@
 import path from "node:path";
-import { error, success, warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 import fs from "node:fs";
 import { addCommand } from "../utils/commands";
 import { Command } from "../types/command";
+import os from "os";
 
 export const install: Command = {
   command: "install",
@@ -10,33 +11,55 @@ export const install: Command = {
   arguments: "<filePath>",
   callback: async (args) => {
     if (!args || args.length === 0) {
-      return warn("Usage: install <filePath>");
+      return output({
+        message: "Usage: install <filePath>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
 
-    const fullFilePath = path.resolve(args[0]);
+    const fullFilePath = path.resolve(`${args[0]}`);
 
     if (!fs.existsSync(fullFilePath)) {
-      return error(`install: '${args[0]}' does not exist or is not a file.`);
+      return output({
+        message: `install: '${args[0]}' does not exist or is not a file.`,
+        messageType: "error",
+      });
     }
 
     try {
-      const importedModule = await import(`${fullFilePath}`);
+      const importedModule = await import(
+        `${os.platform().includes("win") ? "file://" : ""}${fullFilePath}`
+      );
       const newCommand = importedModule.default || importedModule;
 
-      if (newCommand.command && newCommand.description && typeof newCommand.callback === "function") {
+      if (
+        newCommand.command &&
+        newCommand.description &&
+        typeof newCommand.callback === "function"
+      ) {
         addCommand({
           command: newCommand.command,
           description: newCommand.description,
           callback: newCommand.callback,
         });
-        return success(`Command '${newCommand.command}' installed successfully!`);
+
+        return output({
+          message: `Command '${newCommand.command}' installed successfully!`,
+          messageType: "success",
+        });
       } else {
-        return error(
-          "install: The file must export an object with 'command: string', 'description: string', and 'callback: (args?: string[]) => string | void'."
-        );
+        return output({
+          message:
+            "install: The file must export an object with 'command: string', 'description: string', and 'callback: (args?: string[]) => string | void'.",
+          messageType: "error",
+        });
       }
     } catch (e: any) {
-      return error(`Error loading the file.`);
+      return output({
+        message: `Error loading the file. ${e}`,
+        messageType: "error",
+      });
     }
   },
 };

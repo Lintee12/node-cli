@@ -1,4 +1,4 @@
-import { error } from "./clihelp";
+import { output } from "./clihelp";
 import { commands } from "./commands";
 
 export default async function handleInput(input: string) {
@@ -31,7 +31,10 @@ export default async function handleInput(input: string) {
     const cmd = commands.find((c) => c.command === command.toLowerCase());
 
     if (cmd) {
-      const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
+      const args =
+        currentResult !== undefined
+          ? [currentResult, ...tokens.slice(1)]
+          : tokens.slice(1);
       //console.log(args);
       currentResult = await cmd.callback(args);
 
@@ -43,7 +46,12 @@ export default async function handleInput(input: string) {
         console.log(currentResult);
       }
     } else {
-      console.error(error(`error: '${command}' is not a valid command.`));
+      console.log(
+        output({
+          message: `'${command}' is not a valid command.`,
+          messageType: "error",
+        })
+      );
       break;
     }
   }

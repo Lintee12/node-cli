@@ -1,5 +1,5 @@
 import { Command } from "../types/command";
-import { warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 
 export const sort: Command = {
   command: "sort",
@@ -7,11 +7,18 @@ export const sort: Command = {
   arguments: "<string...>",
   callback(args) {
     if (args.length > 0) {
-      const words = args.length === 1 && typeof args[0] === "string" ? args[0].split(" ") : args;
+      const words =
+        args.length === 1 && typeof args[0] === "string"
+          ? args[0].split(" ")
+          : args;
       const sortedArgs = words.sort();
       return sortedArgs.join(" ");
     } else {
-      return warn("Usage: sort <string[]>");
+      return output({
+        message: "Usage: sort <string...>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

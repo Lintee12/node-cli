@@ -1,5 +1,5 @@
 import { Command } from "../types/command";
-import { warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 
 export const b64: Command = {
   command: "b64",
@@ -9,7 +9,11 @@ export const b64: Command = {
     if (args.length > 0) {
       return btoa(args.join(" ").replace("b64", "").trimStart());
     } else {
-      return warn("Usage: b64 <string>");
+      return output({
+        message: "Usage: b64 <string>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

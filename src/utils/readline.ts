@@ -18,7 +18,6 @@ export default function getInput(): Promise<string> {
       process.stdin.on("data", (key: any) => {
         if (key === "\u0003") {
           rl.close();
-          process.exit();
         }
       });
       dataListenerAttached = true;

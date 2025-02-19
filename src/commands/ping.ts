@@ -1,6 +1,6 @@
 import { Command } from "../types/command";
-import { success, warn } from "../utils/clihelp";
 import ping from "ping";
+import { output } from "../utils/clihelp";
 
 export const doPing: Command = {
   command: "ping",
@@ -16,12 +16,24 @@ export const doPing: Command = {
       });
 
       if (isAlive) {
-        return success("Success");
+        return output({
+          message: "Success",
+          messageType: "success",
+          usePrefix: false,
+        });
       } else {
-        return warn(`Failed`);
+        return output({
+          message: "Failed",
+          messageType: "error",
+          usePrefix: false,
+        });
       }
     } else {
-      return warn("Usage: ping <host>");
+      return output({
+        message: "Usage: ping <host>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

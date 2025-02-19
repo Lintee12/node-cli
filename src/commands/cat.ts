@@ -1,5 +1,5 @@
 import { Command } from "../types/command";
-import { error, warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 import fs from "fs";
 import readline from "readline";
 
@@ -32,21 +32,35 @@ export const cat: Command = {
 
             rl.on("error", (err) => {
               reject();
-              return error(
-                `cat: failed to read '${targetPath}': ${err.message}`
-              );
+              return output({
+                message: `cat: failed to read '${targetPath}': ${err.message}`,
+                messageType: "error",
+                usePrefix: true,
+              });
             });
           });
 
           return lines.join("\n");
         } catch (err: any) {
-          return error(`cat: failed to process the file: ${err.message}`);
+          return output({
+            message: `cat: failed to process the file: ${err.message}`,
+            messageType: "error",
+            usePrefix: true,
+          });
         }
       } else {
-        return error(`cat: '${targetPath}' does not exist or is not a file.`);
+        return output({
+          message: `cat: '${targetPath}' does not exist or is not a file.`,
+          messageType: "error",
+          usePrefix: true,
+        });
       }
     } else {
-      return warn("Usage: cat <filePath>");
+      return output({
+        message: "Usage: cat <filePath>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

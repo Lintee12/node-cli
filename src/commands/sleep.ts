@@ -1,5 +1,5 @@
 import { Command } from "../types/command";
-import { error, warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 
 export const sleep: Command = {
   command: "sleep",
@@ -9,12 +9,19 @@ export const sleep: Command = {
     if (args.length > 0) {
       const ms = parseInt(args[0], 10);
       if (isNaN(ms)) {
-        return error(`sleep: '${args[0]}' is not a valid number.`);
+        return output({
+          message: `sleep: '${args[0]}' is not a valid number.`,
+          messageType: "error",
+        });
       } else {
         await new Promise((resolve) => setTimeout(resolve, ms));
       }
     } else {
-      return warn("Usage: sleep <number>");
+      return output({
+        message: "Usage: sleep <ms>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

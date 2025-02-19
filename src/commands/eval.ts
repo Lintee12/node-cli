@@ -1,5 +1,5 @@
 import { Command } from "../types/command";
-import { error } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 
 export const doEval: Command = {
   command: "eval",
@@ -11,7 +11,11 @@ export const doEval: Command = {
       const result = eval(formatted);
       return result !== undefined ? result : "";
     } catch (e: any) {
-      return error(e.toString());
+      return output({
+        message: e.toString(),
+        messageType: "error",
+        usePrefix: true,
+      });
     }
   },
 };

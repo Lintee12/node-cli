@@ -1,5 +1,5 @@
 import fs from "fs";
-import { error, parseArguments, warn } from "../utils/clihelp";
+import { output, parseArguments } from "../utils/clihelp";
 import { Command } from "../types/command";
 
 export const rmdir: Command = {
@@ -11,33 +11,52 @@ export const rmdir: Command = {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {
       for (const targetPath of parsed) {
-        if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
+        if (
+          fs.existsSync(targetPath) &&
+          fs.lstatSync(targetPath).isDirectory()
+        ) {
           if (flags.includes("-r")) {
             //recursive
             try {
               fs.rmSync(targetPath, { recursive: true, force: true });
             } catch (err: any) {
-              return error(`rmdir: '${targetPath}' failed.`);
+              return output({
+                message: `rmdir: '${targetPath}' failed.`,
+                messageType: "error",
+              });
             }
           } else {
             //single dir
             const files = fs.readdirSync(targetPath);
             if (files.length > 0) {
-              return error(`rmdir: '${targetPath}' is not empty. Empty the directory or use -r.`);
+              return output({
+                message: `rmdir: '${targetPath}' is not empty. Empty the directory or use -r.`,
+                messageType: "error",
+              });
             } else {
               try {
                 fs.rmdirSync(targetPath);
               } catch (err: any) {
-                return error(`rmdir: '${targetPath}' failed.`);
+                return output({
+                  message: `rmdir: '${targetPath}' failed.`,
+                  messageType: "error",
+                });
               }
             }
           }
         } else {
-          return error(`rmdir: '${targetPath}' does not exist or is not a directory.`);
+          return output({
+            message: `rmdir: '${targetPath}' does not exist or is not a directory.`,
+            messageType: "error",
+          });
         }
       }
     } else {
-      return warn("Usage: rmdir <path> <flags>");
+      return output({
+        message: `Usage: rmdir <path> <flags>`,
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

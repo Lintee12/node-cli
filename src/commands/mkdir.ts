@@ -1,6 +1,6 @@
 import fs from "fs";
-import { error, warn } from "../utils/clihelp";
 import { Command } from "../types/command";
+import { output } from "../utils/clihelp";
 
 export const mkdir: Command = {
   command: "mkdir",
@@ -12,11 +12,19 @@ export const mkdir: Command = {
         if (!fs.existsSync(targetPath)) {
           fs.mkdirSync(targetPath, { recursive: true });
         } else {
-          return error(`mkdir: '${targetPath}' already exists.`);
+          return output({
+            message: `mkdir: '${targetPath}' already exists.`,
+            messageType: "error",
+            usePrefix: true,
+          });
         }
       }
     } else {
-      return warn("Usage: mkdir <path>");
+      return output({
+        message: "Usage: mkdir <path>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };

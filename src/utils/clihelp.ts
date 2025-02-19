@@ -1,4 +1,7 @@
+import { messageType } from "../types/message";
 import { commands } from "./commands";
+
+import colors from "ansi-colors";
 
 export default function buildSpace(length: number): string {
   return " ".repeat(length);
@@ -27,26 +30,22 @@ export function getCommandByName(commandName: string) {
   return commands.find((c) => c.command === commandName.toLowerCase());
 }
 
-export function error(message: string) {
-  return `\x1b[31m${message}\x1b[0m`;
+export function output({
+  message,
+  messageType,
+  usePrefix = true,
+}: {
+  message: any;
+  messageType?: messageType;
+  usePrefix?: boolean;
+}) {
+  if (messageType === "error") {
+    return colors.red(`${usePrefix ? "error: " : ""}${message}`);
+  } else if (messageType === "success") {
+    return colors.green(`${usePrefix ? "success: " : ""}${message}`);
+  } else if (messageType === "warning") {
+    return colors.yellow(`${usePrefix ? "warning: " : ""}${message}`);
+  } else {
+    return message;
+  }
 }
-
-export function warn(message: string) {
-  return `\x1b[33m${message}\x1b[0m`;
-}
-
-export function success(message: string) {
-  return `\x1b[32m${message}\x1b[0m`;
-}
-
-console.error = (message: any) => {
-  process.stderr.write(error(message) + "\n");
-};
-
-console.warn = (message: any) => {
-  process.stderr.write(warn(message) + "\n");
-};
-
-console.success = (message: any) => {
-  process.stdout.write(success(message) + "\n");
-};

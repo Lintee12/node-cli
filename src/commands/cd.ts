@@ -1,5 +1,5 @@
 import fs from "fs";
-import { error, warn } from "../utils/clihelp";
+import { output } from "../utils/clihelp";
 import { Command } from "../types/command";
 
 export const cd: Command = {
@@ -12,10 +12,18 @@ export const cd: Command = {
       if (fs.existsSync(targetDir) && fs.lstatSync(targetDir).isDirectory()) {
         process.chdir(targetDir);
       } else {
-        return error(`cd: '${targetDir}' does not exist or is not a valid directory.`);
+        return output({
+          message: `cd: '${targetDir}' does not exist or is not a valid directory.`,
+          messageType: "error",
+          usePrefix: true,
+        });
       }
     } else {
-      return warn("Usage: cd <path>");
+      return output({
+        message: "Usage: cd <path>",
+        messageType: "warning",
+        usePrefix: false,
+      });
     }
   },
 };
