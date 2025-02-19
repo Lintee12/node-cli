@@ -3,7 +3,7 @@ import { commands } from "./commands";
 
 function parseTokens(command: string): string[] {
   //parse command into an array of "tokens"
-  const tokenRegex = /"([^"]*)"|'([^']*)'|`([^`]*)`|\S+/g; // strings i quotes are a single token
+  const tokenRegex = /"([^"]*)"|'([^']*)'|`([^`]*)`|\S+/g; // strings in quotes are a single token
   const tokens: string[] = [];
   let match: RegExpExecArray | null;
 
@@ -18,49 +18,54 @@ function parseTokens(command: string): string[] {
 export default async function handleInput(input: string) {
   const originalInput = input.trim();
 
-  //split commands by '|' and remove unnecessary spaces
-  const pipeline = originalInput
-    .split("|")
-    .map((cmd) => cmd.trim())
-    .filter((cmd) => cmd !== "");
+  const commandSections = originalInput.split(";").map((section) => section.trim());
 
-  if (pipeline.length === 0) return;
+  //run for each section
+  for (const section of commandSections) {
+    //split commands by '|' and remove unnecessary spaces
+    const pipeline = section
+      .split("|")
+      .map((cmd) => cmd.trim())
+      .filter((cmd) => cmd !== "");
 
-  let currentResult: string | void = undefined;
+    if (pipeline.length === 0) return;
 
-  for (let i = 0; i < pipeline.length; i++) {
-    const commandLine = pipeline[i];
-    const tokens = parseTokens(commandLine);
+    let currentResult: string | void = undefined;
 
-    //get command from the first token
-    const command = tokens[0];
-    if (command === undefined) return;
+    for (let i = 0; i < pipeline.length; i++) {
+      const commandLine = pipeline[i];
+      const tokens = parseTokens(commandLine);
 
-    //try to find the matching command
-    const cmd = commands.find((c) => c.command === command.toLowerCase());
+      //get command from the first token
+      const command = tokens[0];
+      if (command === undefined) return;
 
-    if (cmd) {
-      //set arguments to the output of the last command if possible
-      const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
-      currentResult = await cmd.callback(args);
+      //try to find the matching command
+      const cmd = commands.find((c) => c.command === command.toLowerCase());
 
-      //reset result for next command
-      if (currentResult === undefined && i < pipeline.length - 1) {
-        currentResult = "";
+      if (cmd) {
+        //set arguments to the output of the last command if possible
+        const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
+        currentResult = await cmd.callback(args);
+
+        //reset result for next command
+        if (currentResult === undefined && i < pipeline.length - 1) {
+          currentResult = "";
+        }
+
+        //if last command in the pipeline print the output
+        if (i === pipeline.length - 1 && currentResult !== undefined) {
+          console.log(currentResult);
+        }
+      } else {
+        console.log(
+          output({
+            message: `'${command}' is not a valid command.`,
+            messageType: "error",
+          })
+        );
+        break;
       }
-
-      //if last command in the pipeline print the output
-      if (i === pipeline.length - 1 && currentResult !== undefined) {
-        console.log(currentResult);
-      }
-    } else {
-      console.log(
-        output({
-          message: `'${command}' is not a valid command.`,
-          messageType: "error",
-        })
-      );
-      break;
     }
   }
 }
