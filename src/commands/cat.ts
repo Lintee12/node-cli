@@ -1,17 +1,15 @@
-import fs from "node:fs";
-import readline from "readline";
-import { error, warn } from "../utils/clihelp";
-import handleInput from "../utils/handleInput";
 import { Command } from "../types/command";
+import { error, warn } from "../utils/clihelp";
+import fs from "fs";
+import readline from "readline";
 
-export const exec: Command = {
-  command: "exec",
-  description:
-    "Executes a list of commands line by line form the provided file.",
+export const cat: Command = {
+  command: "cat",
   arguments: "<filePath>",
+  description: "Outputs the contents of a file to the screen.",
   callback: async (args) => {
     if (args.length > 0) {
-      let targetPath = args[0];
+      const targetPath = args[0];
       if (fs.existsSync(targetPath)) {
         const fileStream = fs.createReadStream(targetPath);
 
@@ -24,9 +22,7 @@ export const exec: Command = {
 
         try {
           rl.on("line", (line) => {
-            if (!line.startsWith("#")) {
-              lines.push(line);
-            }
+            lines.push(line);
           });
 
           await new Promise<void>((resolve, reject) => {
@@ -37,24 +33,20 @@ export const exec: Command = {
             rl.on("error", (err) => {
               reject();
               return error(
-                `rm: failed to read '${targetPath}': ${err.message}`
+                `cat: failed to read '${targetPath}': ${err.message}`
               );
             });
           });
 
-          for (const line of lines) {
-            await handleInput(line);
-          }
-
-          return;
+          return lines.join("\n");
         } catch (err: any) {
-          return error(`exec: failed to process the file: ${err.message}`);
+          return error(`cat: failed to process the file: ${err.message}`);
         }
       } else {
-        return error(`exec: '${targetPath}' does not exist or is not a file.`);
+        return error(`cat: '${targetPath}' does not exist or is not a file.`);
       }
     } else {
-      return warn("Usage: exec <filePath>");
+      return warn("Usage: cat <filePath>");
     }
   },
 };

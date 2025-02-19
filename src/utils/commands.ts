@@ -27,6 +27,7 @@ import { time } from "../commands/time";
 import { username } from "../commands/whoami";
 import { uuid } from "../commands/uuid";
 import { Command } from "../types/command";
+import { cat } from "../commands/cat";
 
 export const commands: Command[] = [];
 
@@ -62,3 +63,4 @@ addCommand(system);
 addCommand(time);
 addCommand(username);
 addCommand(uuid);
+addCommand(cat);
