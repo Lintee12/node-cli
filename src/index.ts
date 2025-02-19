@@ -5,7 +5,7 @@ import getInput from "./utils/readline";
 
 process.emitWarning = () => {};
 
-async function main() {
+export async function main() {
   const input = await getInput();
   await handleInput(input);
   main();

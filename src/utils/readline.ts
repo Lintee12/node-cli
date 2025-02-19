@@ -15,9 +15,10 @@ let dataListenerAttached = false;
 export default function getInput(): Promise<string> {
   return new Promise((resolve) => {
     if (!dataListenerAttached) {
-      process.stdin.on("data", (key: any) => {
-        if (key === "\u0003") {
+      process.stdin.on("data", (key: Buffer) => {
+        if (key.toString() === "\u0003") {
           rl.close();
+          process.exit();
         }
       });
       dataListenerAttached = true;

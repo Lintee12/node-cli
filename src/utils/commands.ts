@@ -35,10 +35,10 @@ export function addCommand(command: Command) {
   commands.push(command);
 }
 
-addCommand(b64);
+/* addCommand(b64); */
 addCommand(cd);
 addCommand(clear);
-addCommand(coinflip);
+/* addCommand(coinflip); */
 addCommand(cwd);
 addCommand(date);
 addCommand(dir);
@@ -49,7 +49,7 @@ addCommand(exit);
 addCommand(help);
 addCommand(hostname);
 addCommand(install);
-addCommand(joke);
+/* addCommand(joke); */
 addCommand(mk);
 addCommand(mkdir);
 addCommand(doPing);
