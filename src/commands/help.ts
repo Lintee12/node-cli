@@ -10,7 +10,7 @@ export const help: Command = {
     if (args.length > 0) {
       if (isValidCommand(args[0])) {
         const command = getCommandByName(args[0]);
-        return `Command: ${command?.command}\nFlags: ${`[${command?.flags?.join(" ")}]` || "None"}\nArguments: ${
+        return `Command: ${command?.command}\nFlags: ${command?.flags ? `[${command.flags.join(" ")}]` : "None"}\nArguments: ${
           command?.arguments || "None"
         }\nDescription: ${command?.description}`;
       } else {
