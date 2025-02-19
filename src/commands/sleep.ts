@@ -1,9 +1,10 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 import { error, warn } from "../utils/clihelp";
 
 export const sleep: Command = {
   command: "sleep",
   description: "Pauses for the specified number of milliseconds.",
+  arguments: "<duration>",
   callback: async (args) => {
     if (args.length > 0) {
       const ms = parseInt(args[0], 10);

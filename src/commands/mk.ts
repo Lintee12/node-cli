@@ -1,11 +1,12 @@
 import path from "path";
 import fs from "fs";
 import { error, warn } from "../utils/clihelp";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const mk: Command = {
   command: "mk",
   description: "Creates a new item at the provided path.",
+  arguments: "<filePath...>",
   callback(args) {
     if (args.length > 0) {
       for (const targetPath of args) {

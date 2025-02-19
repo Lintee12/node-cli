@@ -1,5 +1,5 @@
 import fs from "node:fs";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const dir: Command = {
   command: "dir",

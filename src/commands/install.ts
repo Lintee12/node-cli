@@ -2,11 +2,12 @@ import path from "node:path";
 import { error, success, warn } from "../utils/clihelp";
 import fs from "node:fs";
 import { addCommand } from "../utils/commands";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const install: Command = {
   command: "install",
   description: "Installs a command from a js file.",
+  arguments: "<filePath>",
   callback: async (args) => {
     if (!args || args.length === 0) {
       return warn("Usage: install <filePath>");

@@ -1,4 +1,4 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const random: Command = {
   command: "random",

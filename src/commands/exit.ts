@@ -1,4 +1,4 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 import { rl } from "../utils/readline";
 
 export const exit: Command = {

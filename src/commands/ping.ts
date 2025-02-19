@@ -1,4 +1,4 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 import { success, warn } from "../utils/clihelp";
 import ping from "ping";
 

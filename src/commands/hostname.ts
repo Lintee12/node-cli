@@ -1,4 +1,4 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 import os from "os";
 
 export const hostname: Command = {

@@ -24,9 +24,9 @@ import { sleep } from "../commands/sleep";
 import { sort } from "../commands/sort";
 import { system } from "../commands/system";
 import { time } from "../commands/time";
-import { username } from "../commands/username";
+import { username } from "../commands/whoami";
 import { uuid } from "../commands/uuid";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const commands: Command[] = [];
 

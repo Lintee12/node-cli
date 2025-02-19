@@ -1,9 +1,9 @@
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 import os from "os";
 
 export const username: Command = {
-  command: "username",
-  description: "Returns the users name",
+  command: "whoami",
+  description: "Returns the current users name.",
   callback(args) {
     return os.userInfo().username;
   },

@@ -1,10 +1,11 @@
 import fs from "fs";
 import { error, warn } from "../utils/clihelp";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const mkdir: Command = {
   command: "mkdir",
   description: "Creates a new directory based on the given path.",
+  arguments: "<directoryPath...>",
   callback(args) {
     if (args.length > 0) {
       for (const targetPath of args) {

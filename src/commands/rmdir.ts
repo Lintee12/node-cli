@@ -1,10 +1,12 @@
 import fs from "fs";
 import { error, parseArguments, warn } from "../utils/clihelp";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const rmdir: Command = {
   command: "rmdir",
-  description: "Removes a directory based on the given path. Flags: (-r, recursively removes a directory and its children)",
+  description: "Removes a directory based on the given path.",
+  arguments: "<directoryPath...>",
+  flags: ["-r"],
   callback(args) {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {

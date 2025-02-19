@@ -1,3 +1,5 @@
+import { commands } from "./commands";
+
 export default function buildSpace(length: number): string {
   return " ".repeat(length);
 }
@@ -15,6 +17,14 @@ export function parseArguments(args: string[]) {
   });
 
   return { parsed, flags };
+}
+
+export function isValidCommand(testCommand: string): boolean {
+  return !!commands.find((c) => c.command === testCommand.toLowerCase());
+}
+
+export function getCommandByName(commandName: string) {
+  return commands.find((c) => c.command === commandName.toLowerCase());
 }
 
 export function error(message: string) {

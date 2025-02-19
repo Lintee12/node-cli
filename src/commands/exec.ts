@@ -2,11 +2,12 @@ import fs from "node:fs";
 import readline from "readline";
 import { error, warn } from "../utils/clihelp";
 import handleInput from "../utils/handleInput";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const exec: Command = {
   command: "exec",
   description: "Executes a list of commands line by line form the provided file.",
+  arguments: "<filePath>",
   callback: async (args) => {
     if (args.length > 0) {
       let targetPath = args[0];

@@ -1,5 +1,5 @@
 import os from "os";
-import { Command } from "../types/types";
+import { Command } from "../types/command";
 
 export const system: Command = {
   command: "system",
