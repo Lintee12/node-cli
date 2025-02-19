@@ -1,10 +1,24 @@
 import { output } from "./clihelp";
 import { commands } from "./commands";
 
+function parseTokens(command: string): string[] {
+  //parse command into an array of "tokens"
+  const tokenRegex = /"([^"]*)"|'([^']*)'|`([^`]*)`|\S+/g; // strings i quotes are a single token
+  const tokens: string[] = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = tokenRegex.exec(command))) {
+    const quotedContent = match[1] || match[2] || match[3];
+    tokens.push(quotedContent || match[0]);
+  }
+
+  return tokens;
+}
+
 export default async function handleInput(input: string) {
   const originalInput = input.trim();
 
-  //separate commands into a list by the '|' character
+  //split commands by '|' and remove unnecessary spaces
   const pipeline = originalInput
     .split("|")
     .map((cmd) => cmd.trim())
@@ -14,34 +28,28 @@ export default async function handleInput(input: string) {
 
   let currentResult: string | void = undefined;
 
-  const tokenRegex = /"([^"]*)"|'([^']*)'|`([^`]*)`|\S+/g;
-
   for (let i = 0; i < pipeline.length; i++) {
-    let tokens = [];
-    let match;
-    while ((match = tokenRegex.exec(pipeline[i]))) {
-      const quotedContent = match[1] || match[2] || match[3];
-      tokens.push(quotedContent || match[0]);
-    }
+    const commandLine = pipeline[i];
+    const tokens = parseTokens(commandLine);
 
+    //get command from the first token
     const command = tokens[0];
-
     if (command === undefined) return;
 
+    //try to find the matching command
     const cmd = commands.find((c) => c.command === command.toLowerCase());
 
     if (cmd) {
-      const args =
-        currentResult !== undefined
-          ? [currentResult, ...tokens.slice(1)]
-          : tokens.slice(1);
-      //console.log(args);
+      //set arguments to the output of the last command if possible
+      const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
       currentResult = await cmd.callback(args);
 
+      //reset result for next command
       if (currentResult === undefined && i < pipeline.length - 1) {
         currentResult = "";
       }
 
+      //if last command in the pipeline print the output
       if (i === pipeline.length - 1 && currentResult !== undefined) {
         console.log(currentResult);
       }
