@@ -1,10 +1,5 @@
 import { Command } from "../types/command";
-import buildSpace, {
-  getCommandByName,
-  isValidCommand,
-  output,
-  parseArguments,
-} from "../utils/clihelp";
+import buildSpace, { getCommandByName, isValidCommand, output, parseArguments } from "../utils/clihelp";
 import { commands } from "../utils/commands";
 
 export const help: Command = {
@@ -15,11 +10,9 @@ export const help: Command = {
     if (args.length > 0) {
       if (isValidCommand(args[0])) {
         const command = getCommandByName(args[0]);
-        return `Command: ${command?.command}\nFlags: ${
-          command?.flags ? `[${command.flags.join(" ")}]` : "None"
-        }\nArguments: ${command?.arguments || "None"}\nDescription: ${
-          command?.description
-        }`;
+        return `Command: ${command?.command}\nFlags: ${command?.flags ? `[${command.flags.join(" ")}]` : "None"}\nArguments: ${
+          command?.arguments || "None"
+        }\nDescription: ${command?.description}${command?.documentation ? `\nDocumentation: ${command.documentation}` : ""}`;
       } else {
         return output({
           message: `help: '${args[0]}' is not a valid command.`,
@@ -28,24 +21,16 @@ export const help: Command = {
       }
     } else {
       let longestCommandPrefix = commands.reduce((longest, command) => {
-        const commandWithFlagsLength =
-          command.command.length +
-          `${command.flags ? `[${command.flags.join(" ")}]` : ""}`.length;
-        return commandWithFlagsLength > longest
-          ? commandWithFlagsLength
-          : longest;
+        const commandWithFlagsLength = command.command.length + `${command.flags ? `[${command.flags.join(" ")}]` : ""}`.length;
+        return commandWithFlagsLength > longest ? commandWithFlagsLength : longest;
       }, 0);
 
-      const sortedCommands = [...commands].sort((a, b) =>
-        a.command.localeCompare(b.command)
-      );
+      const sortedCommands = [...commands].sort((a, b) => a.command.localeCompare(b.command));
 
       let help = "";
       sortedCommands.forEach((command, index) => {
         let commandString = command.command;
-        commandString += `${buildSpace(1)}${
-          command.flags ? `[${command.flags.join(" ")}]` : ""
-        }`;
+        commandString += `${buildSpace(1)}${command.flags ? `[${command.flags.join(" ")}]` : ""}`;
 
         const spaceToAdd = longestCommandPrefix - commandString.length + 4;
 

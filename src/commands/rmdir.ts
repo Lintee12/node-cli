@@ -5,16 +5,14 @@ import { Command } from "../types/command";
 export const rmdir: Command = {
   command: "rmdir",
   description: "Removes a directory based on the given path.",
+  documentation: "-to recursively delete all child items in a folder use the -r flag.",
   arguments: "<directoryPath...>",
   flags: ["-r"],
   callback(args) {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {
       for (const targetPath of parsed) {
-        if (
-          fs.existsSync(targetPath) &&
-          fs.lstatSync(targetPath).isDirectory()
-        ) {
+        if (fs.existsSync(targetPath) && fs.lstatSync(targetPath).isDirectory()) {
           if (flags.includes("-r")) {
             //recursive
             try {

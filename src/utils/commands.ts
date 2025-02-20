@@ -62,5 +62,5 @@ addCommand(sort);
 addCommand(system);
 addCommand(time);
 addCommand(username);
-addCommand(uuid);
+/* addCommand(uuid); */
 addCommand(cat);
