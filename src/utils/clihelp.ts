@@ -1,3 +1,4 @@
+import { Command } from "../types/command";
 import { messageType } from "../types/message";
 import { commands } from "./commands";
 
@@ -48,4 +49,24 @@ export function output({
   } else {
     return message;
   }
+}
+
+export function generateCommandTemplate(cmd: Command) {
+  return `${cmd.command} ${
+    cmd.arguments
+      ? cmd.arguments
+          .map((arg) => {
+            return `<${arg.argument}>`;
+          })
+          .join(" ")
+      : ""
+  } ${
+    cmd.flags
+      ? `[${cmd.flags
+          .map((flag) => {
+            return `${flag.flag}`;
+          })
+          .join(" ")}]`
+      : ""
+  }`;
 }

@@ -6,8 +6,7 @@ import colors from "ansi-colors";
 export const doPing: Command = {
   command: "ping",
   description: "Pings a domain name or ip address using an ICMP request.",
-  arguments: "<host>",
-  argumentsRequired: true,
+  arguments: [{ argument: "host", required: true, description: "The address of the host you want to ping." }],
   documentation: `If the ping is successful the output will be '${colors.green(
     "Success"
   )}'. If the ping fails the output will be '${colors.red("Failed")}'.`,

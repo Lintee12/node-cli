@@ -4,8 +4,7 @@ import { output } from "../utils/clihelp";
 export const doEval: Command = {
   command: "eval",
   description: "Executes the provided input string as javascript.",
-  arguments: "<javascript>",
-  documentation: `Example: eval 1 + 1 \nOutput: 2`,
+  arguments: [{ argument: "js", required: false, description: "The javascript code you would like to run." }],
   callback(args) {
     const formatted = args.join(" ").replace("eval", "").trimStart();
     try {

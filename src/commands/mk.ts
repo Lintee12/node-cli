@@ -6,9 +6,7 @@ import { output } from "../utils/clihelp";
 export const mk: Command = {
   command: "mk",
   description: "Creates a new item at the provided path.",
-  arguments: "<file...>",
-  argumentsRequired: true,
-  documentation: "Can take a list of file paths.\nExample:\nmk test.txt test2.txt\nmk 'test file.txt'",
+  arguments: [{ argument: "file...", required: true, description: "All paths of the files you wish to create." }],
   callback(args) {
     for (const targetPath of args) {
       if (fs.existsSync(targetPath)) {

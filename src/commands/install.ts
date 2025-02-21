@@ -8,10 +8,7 @@ import os from "os";
 export const install: Command = {
   command: "install",
   description: "Installs a command from a js file.",
-  arguments: "<file>",
-  argumentsRequired: true,
-  documentation:
-    "Installs a command from a valid command module that can be used in the command line.\nRead more about command modules here https://example.com",
+  arguments: [{ argument: "file", required: true, description: "The path to the file that contains the command module" }],
   callback: async (args) => {
     const fullFilePath = path.resolve(`${args[0]}`);
 

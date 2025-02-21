@@ -7,8 +7,8 @@ export const rmdir: Command = {
   description: "Removes a directory based on the given path.",
   documentation:
     "Can take a list of file paths.\nUsed to delete a directory. Use the '-r' flag if you want to remove the directory and all its children",
-  arguments: "<dir> [-r]",
-  argumentsRequired: true,
+  arguments: [{ argument: "dir...", required: true, description: "All paths of the directories you wish to delete." }],
+  flags: [{ flag: "-r", description: "Recursively delete the directory and all its children." }],
   callback(args) {
     const { parsed, flags } = parseArguments(args);
     for (const targetPath of parsed) {

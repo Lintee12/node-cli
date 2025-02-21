@@ -4,9 +4,8 @@ import { output } from "../utils/clihelp";
 export const sleep: Command = {
   command: "sleep",
   description: "Pauses for the specified number of milliseconds.",
-  arguments: "<ms>",
-  argumentsRequired: true,
-  documentation: "Sleeps the program for the provided number of <ms>",
+  arguments: [{ argument: "ms", required: true, description: "The amount of milliseconds you want the program to sleep for." }],
+  documentation: "Sleeps the program for the provided number of <ms>.",
   callback: async (args) => {
     const ms = parseInt(args[0], 10);
     if (isNaN(ms)) {

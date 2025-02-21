@@ -7,8 +7,7 @@ import { output } from "../utils/clihelp";
 export const exec: Command = {
   command: "exec",
   description: "Executes a list of commands line by line form the provided file.",
-  arguments: "<file>",
-  argumentsRequired: true,
+  arguments: [{ argument: "file", required: true, description: "The path to the file you want to execute." }],
   callback: async (args) => {
     let targetPath = args[0];
     if (fs.existsSync(targetPath)) {

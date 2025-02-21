@@ -5,8 +5,7 @@ import { output } from "../utils/clihelp";
 export const rm: Command = {
   command: "rm",
   description: "Removes an item at the given path.",
-  arguments: "<file...>",
-  argumentsRequired: true,
+  arguments: [{ argument: "file...", required: true, description: "All paths of the files you wish to delete." }],
   documentation: "Can take a list of file paths.",
   callback(args) {
     for (const targetPath of args) {

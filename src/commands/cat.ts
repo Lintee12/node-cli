@@ -5,10 +5,8 @@ import readline from "readline";
 
 export const cat: Command = {
   command: "cat",
-  arguments: "<file>",
-  argumentsRequired: true,
+  arguments: [{ argument: "file", required: true, description: "The path to the file you want to display to the output." }],
   description: "Outputs the contents of a file to the screen.",
-  documentation: "Used to quickly read the contents of files containing text.",
   callback: async (args) => {
     const targetPath = args[0];
     if (fs.existsSync(targetPath)) {

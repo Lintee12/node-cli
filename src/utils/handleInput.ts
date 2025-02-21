@@ -1,4 +1,4 @@
-import { output } from "./clihelp";
+import { generateCommandTemplate, output } from "./clihelp";
 import { commands } from "./commands";
 
 function parseTokens(command: string): string[] {
@@ -46,10 +46,13 @@ export default async function handleInput(input: string) {
       if (cmd) {
         //set arguments to the output of the last command if possible
         const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
-        if (cmd.argumentsRequired && cmd.arguments && args.length === 0) {
+
+        const hasRequiredArgument = cmd.arguments?.some((arg) => arg.required === true);
+
+        if (hasRequiredArgument && cmd.arguments && args.length === 0) {
           console.log(
             output({
-              message: `Usage: ${cmd.command} ${cmd.arguments}`,
+              message: `Usage: ${generateCommandTemplate(cmd)}`,
               messageType: "warning",
               usePrefix: false,
             })
