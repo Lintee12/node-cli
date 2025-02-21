@@ -1,8 +1,7 @@
 export interface Command {
   command: string;
   description: string;
-  documentation?: string;
+  documentation?: string; //advanced help
   arguments?: string;
-  flags?: string[];
   callback: (args: string[]) => any | Promise<any>;
 }

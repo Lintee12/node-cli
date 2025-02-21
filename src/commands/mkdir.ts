@@ -5,7 +5,8 @@ import { output } from "../utils/clihelp";
 export const mkdir: Command = {
   command: "mkdir",
   description: "Creates a new directory based on the given path.",
-  arguments: "<directoryPath...>",
+  arguments: "<dir...>",
+  documentation: "Can take a list of file paths.",
   callback(args) {
     if (args.length > 0) {
       for (const targetPath of args) {

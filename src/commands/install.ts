@@ -8,7 +8,9 @@ import os from "os";
 export const install: Command = {
   command: "install",
   description: "Installs a command from a js file.",
-  arguments: "<filePath>",
+  arguments: "<file>",
+  documentation:
+    "Installs a command from a valid command module that can be used in the command line.\nRead more about command modules here https://example.com",
   callback: async (args) => {
     if (!args || args.length === 0) {
       return output({
@@ -28,16 +30,10 @@ export const install: Command = {
     }
 
     try {
-      const importedModule = await import(
-        `${os.platform().includes("win") ? "file://" : ""}${fullFilePath}`
-      );
+      const importedModule = await import(`${os.platform().includes("win") ? "file://" : ""}${fullFilePath}`);
       const newCommand = importedModule.default || importedModule;
 
-      if (
-        newCommand.command &&
-        newCommand.description &&
-        typeof newCommand.callback === "function"
-      ) {
+      if (newCommand.command && newCommand.description && typeof newCommand.callback === "function") {
         addCommand({
           command: newCommand.command,
           description: newCommand.description,

@@ -6,9 +6,8 @@ import { output } from "../utils/clihelp";
 
 export const exec: Command = {
   command: "exec",
-  description:
-    "Executes a list of commands line by line form the provided file.",
-  arguments: "<filePath>",
+  description: "Executes a list of commands line by line form the provided file.",
+  arguments: "<file>",
   callback: async (args) => {
     if (args.length > 0) {
       let targetPath = args[0];

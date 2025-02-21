@@ -5,7 +5,8 @@ import { Command } from "../types/command";
 export const cd: Command = {
   command: "cd",
   description: "Changes the current working directory.",
-  arguments: "<directoryPath>",
+  arguments: "<dir>",
+  documentation: "Changes the directory based off given <dir> path",
   callback(args) {
     if (args.length > 0) {
       let targetDir = args[0];

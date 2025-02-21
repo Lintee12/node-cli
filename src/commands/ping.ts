@@ -5,6 +5,11 @@ import { output } from "../utils/clihelp";
 export const doPing: Command = {
   command: "ping",
   description: "Pings a domain name or ip address using an ICMP request.",
+  documentation: `If the ping is successful the output will be '${output({
+    message: "Success",
+    messageType: "success",
+    usePrefix: false,
+  })}'. If the ping fails the output will be '${output({ message: "Failed", messageType: "error", usePrefix: false })}'.`,
   callback: async (args) => {
     if (args.length > 0) {
       const host = args[0];

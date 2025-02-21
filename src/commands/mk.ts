@@ -6,7 +6,8 @@ import { output } from "../utils/clihelp";
 export const mk: Command = {
   command: "mk",
   description: "Creates a new item at the provided path.",
-  arguments: "<filePath...>",
+  arguments: "<file...>",
+  documentation: "Can take a list of file paths.\nExample:\nmk test.txt test2.txt\nmk 'test file.txt'",
   callback(args) {
     if (args.length > 0) {
       for (const targetPath of args) {

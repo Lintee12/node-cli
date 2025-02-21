@@ -5,9 +5,9 @@ import { Command } from "../types/command";
 export const rmdir: Command = {
   command: "rmdir",
   description: "Removes a directory based on the given path.",
-  documentation: "-to recursively delete all child items in a folder use the -r flag.",
-  arguments: "<directoryPath...>",
-  flags: ["-r"],
+  documentation:
+    "Can take a list of file paths.\nUsed to delete a directory. Use the '-r' flag if you want to remove the directory and all its children",
+  arguments: "<dir> [-r]",
   callback(args) {
     const { parsed, flags } = parseArguments(args);
     if (parsed.length > 0) {
