@@ -1,15 +1,14 @@
 import { Command } from "../types/command";
 import ping from "ping";
 import { output } from "../utils/clihelp";
+import colors from "ansi-colors";
 
 export const doPing: Command = {
   command: "ping",
   description: "Pings a domain name or ip address using an ICMP request.",
-  documentation: `If the ping is successful the output will be '${output({
-    message: "Success",
-    messageType: "success",
-    usePrefix: false,
-  })}'. If the ping fails the output will be '${output({ message: "Failed", messageType: "error", usePrefix: false })}'.`,
+  documentation: `If the ping is successful the output will be '${colors.green(
+    "Success"
+  )}'. If the ping fails the output will be '${colors.red("Failed")}'.`,
   callback: async (args) => {
     if (args.length > 0) {
       const host = args[0];
