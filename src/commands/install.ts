@@ -9,17 +9,10 @@ export const install: Command = {
   command: "install",
   description: "Installs a command from a js file.",
   arguments: "<file>",
+  argumentsRequired: true,
   documentation:
     "Installs a command from a valid command module that can be used in the command line.\nRead more about command modules here https://example.com",
   callback: async (args) => {
-    if (!args || args.length === 0) {
-      return output({
-        message: "Usage: install <filePath>",
-        messageType: "warning",
-        usePrefix: false,
-      });
-    }
-
     const fullFilePath = path.resolve(`${args[0]}`);
 
     if (!fs.existsSync(fullFilePath)) {

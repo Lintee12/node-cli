@@ -46,7 +46,17 @@ export default async function handleInput(input: string) {
       if (cmd) {
         //set arguments to the output of the last command if possible
         const args = currentResult !== undefined ? [currentResult, ...tokens.slice(1)] : tokens.slice(1);
-        currentResult = await cmd.callback(args);
+        if (cmd.argumentsRequired && cmd.arguments && args.length === 0) {
+          console.log(
+            output({
+              message: `Usage: ${cmd.command} ${cmd.arguments}`,
+              messageType: "warning",
+              usePrefix: false,
+            })
+          );
+        } else {
+          currentResult = await cmd.callback(args);
+        }
 
         //reset result for next command
         if (currentResult === undefined && i < pipeline.length - 1) {
